@@ -1,24 +1,18 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
-	"os"
 	"sort"
 	"strconv"
 	"strings"
 )
 
-func main() {
-	fileName := "./input"
-	if len(os.Args) > 1 {
-		fileName = os.Args[1]
-	}
-	data, err := os.ReadFile(fileName)
-	if err != nil {
-		panic(err)
-	}
+//go:embed input
+var input string
 
-	runData(string(data))
+func main() {
+	runData(input)
 }
 
 type Elf struct {
