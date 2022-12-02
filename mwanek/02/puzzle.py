@@ -15,10 +15,10 @@ def part1(rps_rounds) -> int:
     """ Solve part 1 """
     total_score = 0
     for opponent_throw, my_throw in rps_rounds:
-        shape_score = my_throw + 1
-        outcome = (shape_score - opponent_throw) % 3
+        my_throw += 1
+        outcome = (my_throw - opponent_throw) % 3
         outcome_score = outcome * 3
-        total_score += shape_score + outcome_score
+        total_score += my_throw + outcome_score
     return total_score
 
 def part2(strategy_guide):
