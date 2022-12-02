@@ -27,7 +27,8 @@ def solve(puzzle_input: str) -> tuple:
     return solution1, solution2
 
 if __name__ == "__main__":
-    puzzle_input = pathlib.Path("input.txt").read_text(encoding='utf-8').strip()
+    input_file = pathlib.Path(__file__).parent.joinpath("input.txt")
+    puzzle_input = input_file.read_text(encoding='utf-8').strip()
     answer1, answer2 = solve(puzzle_input)
     print(f"Part 1: {answer1}")
     print(f"Part 2: {answer2}")
