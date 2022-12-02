@@ -2,7 +2,6 @@
 """ AOC 2022: Day 2 """
 import pathlib
 
-
 def parse(puzzle_input: str):
     """ Parse input """
     strategy_guide = []
