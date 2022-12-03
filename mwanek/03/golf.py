@@ -1,0 +1,1 @@
+from pathlib import *;from string import *;(lambda f:print(sum([ascii_letters.index((set(l[:len(l)//2])&set(l[len(l)//2:])).pop())+1 for l in f]),sum([ascii_letters.index((set(f[i])&set(f[i+1])&set(f[i+2])).pop())+1 for i in range(0,len(f),3)])))(Path('i').read_text().strip().split('\n'))
