@@ -56,6 +56,7 @@ if __name__ == '__main__':
         # print(f'Elf A: {pair.elf_a}')
         # print(f'Elf B: {pair.elf_b}')
         print(f'Contained: {pair.fully_contained}')
+        print(f'Overlapping: {pair.overlapping}')
         if pair.fully_contained:
             answer_a += 1
         if pair.overlapping:
