@@ -4,27 +4,27 @@ import pathlib
 
 def parse(puzzle_input: str) -> list[list[set]]:
     """ Parse input """
-    cleaning_pairs = []
-    for elves in puzzle_input.splitlines():
-        elf_pair = []
-        for section_assignment in elves.split(','):
-            start, end = map(int, section_assignment.split('-'))
-            elf_pair.append(set(range(start, end+1)))
-        cleaning_pairs.append(elf_pair)
-    return cleaning_pairs
+    pairs_of_cleaning_ranges = []
+    for pair_of_elves in puzzle_input.splitlines():
+        ranges_for_this_pair = []
+        for cleaning_range in pair_of_elves.split(','):
+            start, end = map(int, cleaning_range.split('-'))
+            ranges_for_this_pair.append(set(range(start, end+1)))
+        pairs_of_cleaning_ranges.append(ranges_for_this_pair)
+    return pairs_of_cleaning_ranges
 
-def part1(cleaning_pairs: list[list[set]]) -> int:
+def part1(cleaning_ranges: list[list[set]]) -> int:
     """ Solve part 1 """
     fully_contained_ranges = 0
-    for range1, range2 in cleaning_pairs:
+    for range1, range2 in cleaning_ranges:
         if range1.issubset(range2) or range2.issubset(range1):
             fully_contained_ranges += 1
     return fully_contained_ranges
 
-def part2(cleaning_pairs: list[list[set]]) -> int:
+def part2(cleaning_ranges: list[list[set]]) -> int:
     """ Solve part 2 """
     overlapping_ranges = 0
-    for range1, range2 in cleaning_pairs:
+    for range1, range2 in cleaning_ranges:
         if range1 & range2:
             overlapping_ranges +=1
     return overlapping_ranges
