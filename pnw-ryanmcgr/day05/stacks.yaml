@@ -9,7 +9,7 @@ stacks:
   - ['F', 'S', 'W', 'T']
   - ['N', 'C', 'R']
 
-commands:
+move_orders:
   - [2, 5, 9]
   - [3, 1, 7]
   - [2, 3, 9]
