@@ -6,24 +6,22 @@ from copy import deepcopy
 
 def parse(puzzle_input: str):
     """ Parse input """
-    cargo, procedures = [l.split('\n') for l in puzzle_input.split("\n\n")]
+    cargo_diagram, raw_procedures = [l.split('\n') for l in puzzle_input.split("\n\n")]
 
-    pile_number_string = cargo[-1]
-    crate_strings = cargo[:-1]
+    pile_number_string = cargo_diagram[-1]
+    crate_strings = cargo_diagram[:-1]
+    pile_indexes = [i for i,c in enumerate(pile_number_string) if c.isdigit()]
+
     parsed_crate_piles = []
-    for pile_index,pile_number in enumerate(pile_number_string):
-        crate_pile = deque()
-        if pile_number.isdigit():
-            for layer_of_crates in crate_strings:
-                crate = layer_of_crates[pile_index]
-                if crate.isalpha():
-                    crate_pile.appendleft(crate)
-            parsed_crate_piles.append(crate_pile)
+    for i in pile_indexes:
+        crates_at_index = [s[i] for s in reversed(crate_strings) if s[i].isalpha()]
+        parsed_crate_piles.append(deque(crates_at_index))
 
     parsed_procedures = []
-    for procedure in procedures:
-        digits_in_string = ''.join([c for c in procedure if c.isdigit() or c.isspace()]).strip().split()
-        parsed_procedures.append(tuple(map(int, digits_in_string)))
+    for procedure_string in raw_procedures:
+        digits_and_spaces = ''.join([c for c in procedure_string if c.isdigit() or c.isspace()])
+        procedure_as_integers = tuple(int(s) for s in digits_and_spaces.split())
+        parsed_procedures.append(procedure_as_integers)
 
     return parsed_crate_piles, parsed_procedures
 

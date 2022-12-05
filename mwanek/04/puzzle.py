@@ -17,7 +17,7 @@ def part1(cleaning_ranges: list[list[set]]) -> int:
     """ Solve part 1 """
     fully_contained_ranges = 0
     for range1, range2 in cleaning_ranges:
-        if range1.issubset(range2) or range2.issubset(range1):
+        if range1 <= range2 or range1 >= range2:
             fully_contained_ranges += 1
     return fully_contained_ranges
 
