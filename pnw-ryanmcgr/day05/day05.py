@@ -4,9 +4,10 @@ AOC2022:Day05
 https://adventofcode.com/2022/day/5
 """
 
-from pprint import pprint
-import yaml
 from aocd import get_data, submit
+from pprint import pprint
+import copy
+import yaml
 
 ## Data manually cleaned for sanity sake.
 
@@ -37,46 +38,26 @@ class ContainerStack:
         Output: updated self.stack
         """
         quantity = -1 * command[0]
-        # print(quantity)
-        # print(f'from: {self.stacks[command[1] - 1]}')
-        # print(f'to: {self.stacks[command[2] - 1]}')
         self.stacks[command[2] - 1] = self.stacks[command[2] - 1] + self.stacks[command[1] - 1][quantity:]
         del self.stacks[command[1] - 1][quantity:]
-        # print(f'from: {self.stacks[command[1] - 1]}')
-        # print(f'to: {self.stacks[command[2] - 1]}')
         return self.stacks
 
 if __name__ == '__main__':
     with open('./stacks.yaml', 'r') as file:
         data = yaml.safe_load(file)
 
-    pprint(data['stacks'])
-    container_stack_a = ContainerStack(data['stacks'])
+    container_stack_a = ContainerStack(copy.deepcopy(data['stacks']))
     print('===== ANSWER A =====')
-    # print('Original Stacks')
-    # print('===============')
-    # pprint(container_stack_a.stacks)
     for command in data['commands']:
         container_stack_a.move_container_sequential(command)
-    # print('Final Stacks')
-    # print('===============')
-    # pprint(container_stack_a.stacks)
     answer_a = ''.join([x[-1] for x in container_stack_a.stacks])
     print(f'Answer A: {answer_a}')
     # submit(answer_a, part="a", day=5, year=2022)
 
-    pprint(data['stacks'])
-    container_stack_b = ContainerStack(data['stacks'])
+    container_stack_b = ContainerStack(copy.deepcopy(data['stacks']))
     print('===== ANSWER B =====')
-    # print('Original Stacks')
-    # print('===============')
-    # pprint(container_stack_b.stacks)
-    # pprint(container_stack_b.move_container_bundle(data['commands'][0]))
     for command in data['commands']:
         container_stack_b.move_container_bundle(command)
-    # print('Final Stacks')
-    # print('===============')
-    # pprint(container_stack_b.stacks)
     answer_b = ''.join([x[-1] for x in container_stack_b.stacks])
     print(f'Answer B: {answer_b}')
     # submit(answer_b, part="b", day=5, year=2022)
