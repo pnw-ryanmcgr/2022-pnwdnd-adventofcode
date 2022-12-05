@@ -6,46 +6,48 @@ from copy import deepcopy
 
 def parse(puzzle_input: str):
     """ Parse input """
-    stacks, moves = [l.split('\n') for l in puzzle_input.split("\n\n")]
+    cargo, procedures = [l.split('\n') for l in puzzle_input.split("\n\n")]
 
-    pile_numbers = stacks[-1]
-    crates = stacks[:-1]
-    crate_piles = []
-    for i,pile_number in enumerate(pile_numbers):
+    pile_number_string = cargo[-1]
+    crate_strings = cargo[:-1]
+    parsed_crate_piles = []
+    for pile_index,pile_number in enumerate(pile_number_string):
         crate_pile = deque()
         if pile_number.isdigit():
-            for crate_layer in crates:
-                crate = crate_layer[i]
+            for layer_of_crates in crate_strings:
+                crate = layer_of_crates[pile_index]
                 if crate.isalpha():
                     crate_pile.appendleft(crate)
-            crate_piles.append(crate_pile)
+            parsed_crate_piles.append(crate_pile)
 
-    procedures = []
-    for procedure in moves:
-        numbers = ''.join([c for c in procedure if c.isdigit() or c.isspace()]).strip().split()
-        procedures.append(tuple(map(int, numbers)))
+    parsed_procedures = []
+    for procedure in procedures:
+        digits_in_string = ''.join([c for c in procedure if c.isdigit() or c.isspace()]).strip().split()
+        parsed_procedures.append(tuple(map(int, digits_in_string)))
 
-    return crate_piles, procedures
+    return parsed_crate_piles, parsed_procedures
 
 def part1(data):
     """ Solve part 1 """
     crate_piles, procedures = deepcopy(data)
     for procedure in procedures:
-        amount, origin, destination = procedure
+        amount, source, target = procedure
+        origin = crate_piles[source-1]
+        destination = crate_piles[target-1]
         for _ in range(amount):
-            crate_piles[destination-1].append(crate_piles[origin-1].pop())
+            destination.append(origin.pop())
     return ''.join([pile[-1] for pile in crate_piles])
 
 def part2(data):
     """ Solve part 2 """
     crate_piles, procedures = deepcopy(data)
     for procedure in procedures:
-        amount, origin, destination = procedure
-        crates_to_move = deque()
+        amount, source, target = procedure
+        origin = crate_piles[source-1]
+        destination = crate_piles[target-1]
+        height = len(destination)
         for _ in range(amount):
-            crates_to_move.append(crate_piles[origin-1].pop())
-        for _ in range(amount):
-            crate_piles[destination-1].append(crates_to_move.pop())
+            destination.insert(height, origin.pop())
     return ''.join([pile[-1] for pile in crate_piles])
 
 def solve(puzzle_input: str) -> tuple:
