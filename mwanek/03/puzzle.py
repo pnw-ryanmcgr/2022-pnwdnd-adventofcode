@@ -24,8 +24,9 @@ def part1(rucksacks: list) -> int:
 def part2(rucksacks: list) -> int:
     """ Solve part 2 """
     priorities = 0
+    next_sack = lambda: set(rucksacks.pop())
     while rucksacks:
-        common_item = set(rucksacks.pop()) & set(rucksacks.pop()) & set(rucksacks.pop())
+        common_item = next_sack() & next_sack() & next_sack()
         if common_item:
             priorities += common_item.pop()
     return priorities
