@@ -1,12 +1,16 @@
 #!python
 """ AOC 2022: Day X """
 import pathlib
+from copy import deepcopy
 
 def parse(puzzle_input: str):
     """ Parse input """
+    #section1, section2 = [l.split('\n') for l in puzzle_input.split("\n\n")]
+    #for line in  puzzle_input.splitlines():
 
 def part1(data):
     """ Solve part 1 """
+    #d = deepcopy(data)
 
 def part2(data):
     """ Solve part 2 """
