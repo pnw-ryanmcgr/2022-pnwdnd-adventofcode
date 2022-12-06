@@ -7,7 +7,7 @@ def parse(puzzle_input: str) -> list[int]:
     calories_carried_per_elf = []
     for single_elf_data in puzzle_input.split('\n\n'):
         meals = single_elf_data.split('\n')
-        total_calories = sum(map(int, meals))
+        total_calories = sum([int(meal) for meal in meals])
         calories_carried_per_elf.append(total_calories)
     return sorted(calories_carried_per_elf)
 
