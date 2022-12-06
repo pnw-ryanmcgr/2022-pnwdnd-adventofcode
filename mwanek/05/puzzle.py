@@ -6,15 +6,16 @@ from copy import deepcopy
 
 def parse(puzzle_input: str) -> tuple[list]:
     """ Parse input """
-    cargo_diagram, raw_procedures = [l.split('\n') for l in puzzle_input.split("\n\n")]
+    cargo_diagram, raw_procedures = [l.splitlines() for l in puzzle_input.split("\n\n")]
 
-    pile_number_string = cargo_diagram[-1]
-    crate_strings = cargo_diagram[:-1]
+    cargo_diagram.reverse()
+    pile_number_string = cargo_diagram[0]
+    crate_strings = cargo_diagram[1:]
     pile_indexes = [i for i,c in enumerate(pile_number_string) if c.isdigit()]
 
     parsed_crate_piles = []
     for i in pile_indexes:
-        crates_at_index = [s[i] for s in reversed(crate_strings) if s[i].isalpha()]
+        crates_at_index = [s[i] for s in crate_strings if s[i].isalpha()]
         parsed_crate_piles.append(deque(crates_at_index))
 
     parsed_procedures = []
