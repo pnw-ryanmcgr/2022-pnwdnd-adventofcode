@@ -1,14 +1,12 @@
 #!python
 """ AOC 2022: Day X """
 import pathlib
-from typing import List
-
 class File():
-    def __init__(self, name, size=0):
+    def __init__(self, name, size=0, parent=None):
         self.name = name
-        self.children: List[File] = []
-        self.parent: File = self
-        self._size = size
+        self.children: list[File] = []
+        self.parent: File = parent if parent else self
+        self._size = int(size)
 
     @property
     def size(self):
@@ -17,71 +15,56 @@ class File():
         else:
             return sum([c.size for c in self.children])
 
-    @property
-    def path(self):
-        if self.parent is not self:
-            return "/".join([self.parent.path, self.name])
+def parse(terminal_history: str) -> set[File]:
+    pwd = root = File("root")
+    viewed_directories = set()
+
+    for line in terminal_history.splitlines():
+        if line.startswith("$"):
+            command = line.lstrip("$ ").split()
+            if command[0] == "ls":
+                viewed_directories.add(pwd)
+            elif command[0] == "cd":
+                dirname = command[1]
+                if dirname == "/":
+                    pwd = root
+                elif dirname =="..":
+                    pwd = pwd.parent
+                else:
+                    pwd = next(dir for dir in pwd.children if dir.name == dirname)
         else:
-            return self.name
-
-def parse(puzzle_input: str):
-    """ Parse input """
-    root = File("root")
-    pwd = root
-    dirs = {}
-
-    for line in puzzle_input.splitlines():
-        if pwd.path not in dirs:
-            dirs[pwd.path] = pwd
-        if line.startswith("$ ls"):
-            continue
-        elif line.startswith("$ cd"):
-            dirname = line[5:]
-            if dirname == "/":
-                pwd = root
-            elif dirname =="..":
-                pwd = pwd.parent
+            if line.startswith("dir"):
+                size = 0
+                _, name = line.split()
             else:
-                pwd = next(dir for dir in pwd.children if dir.name == dirname)
-        elif line.startswith("dir"):
-            dirname = line[4:]
-            new_dir = File(dirname)
-            new_dir.parent = pwd
-            pwd.children.append(new_dir)
-        else:
-            size, filename = line.split(' ')
-            new_file = File(filename, int(size))
-            pwd.children.append(new_file)
+                size, name = line.split()
+            pwd.children.append(File(name, size, pwd))
 
-    return root, dirs
+    return viewed_directories
 
-def part1(data):
-    """ Solve part 1 """
-    root, dirs = data
+def part1(directories: set[File]) -> int:
     total = 0
-    for _,d in dirs.items():
-        if d.size <= 100000:
-            total += d.size
+    for directory in directories:
+        if directory.size <= 100000:
+            total += directory.size
     return total
 
-def part2(data):
-    """ Solve part 2 """
-    root, dirs = data
-    max = 70000000
-    need = 30000000
-    unused = max - root.size
-    to_delete = need - unused
+def part2(directories: set[File]) -> int:
+    root = next(d for d in directories if d.name == "root")
+
+    filesystem_max_size = 70000000
+    free_space_needed = 30000000
+    current_free_space = filesystem_max_size - root.size
+    amount_to_delete = free_space_needed - current_free_space
 
     candidates = []
-    for _,d in dirs.items():
-        if d.size >= to_delete:
-            candidates.append(d.size)
+    for directory in directories:
+        if directory.size >= amount_to_delete:
+            candidates.append(directory.size)
 
     return min(candidates)
 
-
 def solve(puzzle_input: str) -> tuple:
-    """ Parse, solve, return solutions """
     data = parse(puzzle_input)
     solution1 = part1(data)
     solution2 = part2(data)
