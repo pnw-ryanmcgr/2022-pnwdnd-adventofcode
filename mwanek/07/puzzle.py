@@ -1,19 +1,20 @@
 #!python
 """ AOC 2022: Day X """
 import pathlib
+from typing import List, Optional
 class File():
-    def __init__(self, name, size=0, parent=None):
+    def __init__(self, name, size = 0, parent = None):
         self.name = name
-        self.children: list[File] = []
-        self.parent: File = parent if parent else self
-        self._size = int(size)
+        self.children: List[File] = []
+        self.parent: Optional[File] = parent
+        self.size: int = int(size)
+        if self.parent and self.size:
+            self.parent.update_size(self.size)
 
-    @property
-    def size(self):
-        if not self.children:
-            return self._size
-        else:
-            return sum([c.size for c in self.children])
+    def update_size(self, size_to_add):
+        self.size += size_to_add
+        if self.parent:
+            self.parent.update_size(size_to_add)
 
 def parse(terminal_history: str) -> set[File]:
     pwd = root = File("root")
