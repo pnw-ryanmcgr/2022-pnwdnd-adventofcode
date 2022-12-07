@@ -29,10 +29,10 @@ def parse(terminal_history: str) -> set[File]:
                 dirname = command[1]
                 if dirname == "/":
                     pwd = root
-                elif dirname =="..":
+                elif dirname == "..":
                     pwd = pwd.parent
                 else:
-                    pwd = next(dir for dir in pwd.children if dir.name == dirname)
+                    pwd = next(c for c in pwd.children if c.name == dirname)
         else:
             if line.startswith("dir"):
                 size = 0
