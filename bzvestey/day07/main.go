@@ -77,15 +77,14 @@ func runData(data string) {
 		}
 	}
 
-	for _, c := range currentDir.Children {
-		currentDir.Size += c.Size
-	}
-	if currentDir.Size <= max_size {
-		allSizeUnderMaxSize += currentDir.Size
-	}
-
-	for _, c := range root.Children {
-		root.Size += c.Size
+	for currentDir != nil {
+		for _, c := range currentDir.Children {
+			currentDir.Size += c.Size
+		}
+		if currentDir.Size <= max_size {
+			allSizeUnderMaxSize += currentDir.Size
+		}
+		currentDir = currentDir.Parent
 	}
 
 	sizeOfDirToDelete := space_needed - (fs_size - root.Size)
