@@ -4,7 +4,6 @@ import pathlib
 
 
 def parse(puzzle_input: str):
-    """ Parse input """
     strategy_guide = []
     for line in puzzle_input.splitlines():
         a,b = line.split(' ')
@@ -12,7 +11,6 @@ def parse(puzzle_input: str):
     return strategy_guide
 
 def part1(rps_rounds) -> int:
-    """ Solve part 1 """
     total_score = 0
     for opponent_throw, my_throw in rps_rounds:
         my_throw += 1
@@ -22,7 +20,6 @@ def part1(rps_rounds) -> int:
     return total_score
 
 def part2(strategy_guide):
-    """ Solve part 2 """
     rounds = []
     for opponent_throw, goal in strategy_guide:
         my_throw = (opponent_throw + 2 + goal) % 3
@@ -30,7 +27,6 @@ def part2(strategy_guide):
     return part1(rounds)
 
 def solve(puzzle_input: str) -> tuple:
-    """ Parse, solve, return solutions """
     data = parse(puzzle_input)
     solution1 = part1(data)
     solution2 = part2(data)
