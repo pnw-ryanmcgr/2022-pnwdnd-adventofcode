@@ -2,7 +2,7 @@
 """ AOC 2022: Day 9  """
 import pathlib
 
-def parse(puzzle_input: str):
+def parse(puzzle_input: str) -> tuple[tuple[int]]:
     movements = []
     movement = {
             "L": (-1, 0),
@@ -14,9 +14,9 @@ def parse(puzzle_input: str):
         direction, steps = line.split()
         for _ in range(int(steps)):
             movements.append(movement[direction])
-    return movements
+    return tuple(movements)
 
-def move(head, tail):
+def move(head: tuple[int], tail: tuple[int]) -> tuple[int]:
     head_x, head_y = head
     tail_x, tail_y = tail
     delta_x, delta_y = diff = (head_x - tail_x, head_y - tail_y)
@@ -28,7 +28,7 @@ def move(head, tail):
         return (tail_x + delta_x, tail_y + delta_y)
     return tail
 
-def solve(puzzle_input):
+def solve(puzzle_input: str) -> tuple[int]:
     head_movements = parse(puzzle_input)
     starting_point = (0,0)
     head_x, head_y = starting_point
