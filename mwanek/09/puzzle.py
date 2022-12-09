@@ -4,18 +4,16 @@ import pathlib
 
 def parse(puzzle_input: str):
     movements = []
+    movement = {
+            "L": (-1, 0),
+            "R": (1, 0),
+            "U": (0, 1),
+            "D": (0, -1)
+        }
     for line in puzzle_input.splitlines():
         direction, steps = line.split()
-        if direction == "L":
-            movement = (-1, 0)
-        if direction == "R":
-            movement = (1, 0)
-        if direction == "U":
-            movement = (0, 1)
-        if direction == "D":
-            movement = (0, -1)
         for _ in range(int(steps)):
-            movements.append(movement)
+            movements.append(movement[direction])
     return movements
 
 def move(head, tail):
@@ -33,8 +31,10 @@ def move(head, tail):
 
 def solve(puzzle_input):
     data = parse(puzzle_input)
+
     tail = [(0,0) for _ in range(9)]
     head = (0,0)
+
     first_tail_visits = set()
     first_tail_visits.add(tail[0])
     last_tail_visits = set()
