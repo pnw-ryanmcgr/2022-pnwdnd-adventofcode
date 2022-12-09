@@ -30,8 +30,7 @@ def move(head: tuple[int], tail: tuple[int]) -> tuple[int]:
 
 def solve(puzzle_input: str) -> tuple[int]:
     head_movements = parse(puzzle_input)
-    starting_point = (0,0)
-    head_x, head_y = starting_point
+    starting_point = head_x, head_y = (0,0)
     tail_knots = [starting_point for _ in range(9)]
 
     first_tail_visits = {starting_point}
