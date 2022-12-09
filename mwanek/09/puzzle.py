@@ -19,35 +19,30 @@ def parse(puzzle_input: str):
 def move(head, tail):
     head_x, head_y = head
     tail_x, tail_y = tail
-    delta_x, delta_y = head_x-tail_x, head_y-tail_y
-    abs_x, abs_y = diff = (abs(delta_x), abs(delta_y))
-    if 2 in diff:
-        if abs_x == 2:
+    delta_x, delta_y = diff = (head_x - tail_x, head_y - tail_y)
+    if 2 in diff or -2 in diff:
+        if delta_x in (2, -2):
             delta_x //= 2
-        if abs_y == 2:
+        if delta_y in (2, -2):
             delta_y //= 2
-        return (tail_x+delta_x, tail_y+delta_y)
+        return (tail_x + delta_x, tail_y + delta_y)
     return tail
 
 def solve(puzzle_input):
-    data = parse(puzzle_input)
+    head_movements = parse(puzzle_input)
+    starting_point = (0,0)
+    head_x, head_y = starting_point
+    tail_knots = [starting_point for _ in range(9)]
 
-    tail = [(0,0) for _ in range(9)]
-    head = (0,0)
+    first_tail_visits = {starting_point}
+    last_tail_visits = {starting_point}
 
-    first_tail_visits = set()
-    first_tail_visits.add(tail[0])
-    last_tail_visits = set()
-    last_tail_visits.add(tail[-1])
-
-    for delta_x, delta_y in data:
-        head_x, head_y = head
-        head = (head_x + delta_x, head_y + delta_y)
-        tail[0] = move(head, tail[0])
-        for i in range(1,9):
-            tail[i] = move(tail[i-1], tail[i])
-        first_tail_visits.add(tail[0])
-        last_tail_visits.add(tail[-1])
+    for delta_x, delta_y in head_movements:
+        head_x, head_y = last_knot = (head_x + delta_x, head_y + delta_y)
+        for number, knot in enumerate(tail_knots):
+            last_knot = tail_knots[number] = move(last_knot, knot)
+        first_tail_visits.add(tail_knots[0])
+        last_tail_visits.add(tail_knots[-1])
 
     return len(first_tail_visits), len(last_tail_visits)
 
