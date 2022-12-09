@@ -42,8 +42,10 @@ def solve(puzzle_input: str) -> tuple[int]:
             tail_knots[number] = last_knot = move(last_knot, knot)
             if last_knot == knot:
                 break
-        first_tail_visits.add(tail_knots[0])
-        last_tail_visits.add(tail_knots[-1])
+        else:
+            last_tail_visits.add(tail_knots[-1])
+        if number:
+            first_tail_visits.add(tail_knots[0])
 
     return len(first_tail_visits), len(last_tail_visits)
 
