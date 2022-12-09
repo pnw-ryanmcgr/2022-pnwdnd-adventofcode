@@ -40,6 +40,8 @@ def solve(puzzle_input: str) -> tuple[int]:
         head_x, head_y = last_knot = (head_x + delta_x, head_y + delta_y)
         for number, knot in enumerate(tail_knots):
             tail_knots[number] = last_knot = move(last_knot, knot)
+            if last_knot == knot:
+                break
         first_tail_visits.add(tail_knots[0])
         last_tail_visits.add(tail_knots[-1])
 
