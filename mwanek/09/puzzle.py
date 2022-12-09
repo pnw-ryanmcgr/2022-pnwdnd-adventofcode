@@ -40,7 +40,7 @@ def solve(puzzle_input):
     for delta_x, delta_y in head_movements:
         head_x, head_y = last_knot = (head_x + delta_x, head_y + delta_y)
         for number, knot in enumerate(tail_knots):
-            last_knot = tail_knots[number] = move(last_knot, knot)
+            tail_knots[number] = last_knot = move(last_knot, knot)
         first_tail_visits.add(tail_knots[0])
         last_tail_visits.add(tail_knots[-1])
 
