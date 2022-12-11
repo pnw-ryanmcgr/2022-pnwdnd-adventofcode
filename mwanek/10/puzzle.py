@@ -14,45 +14,41 @@ def parse(puzzle_input: str):
             signals.append( (signal, int(value)) )
     return signals
 
+def get_pixel(cycle: int, x: int) -> str:
+    pixel_position = (cycle-1)%40
+    sprite_min, sprite_max = x-1, x+1
+
+    pixel = "\n" if (pixel_position == 0) else ""
+
+    if sprite_min <= pixel_position <= sprite_max:
+        pixel += "#"
+    else:
+        pixel += " "
+
+    return pixel
+
 def solve(puzzle_input: str):
     data = parse(puzzle_input)
     signals = deque(data)
+    cycles_to_complete = { "noop": 1, "addx": 2 }
 
-    cycle = timer = signal_strengths = 0
+    cycle = timer = signal_strength = 0
     x = 1
-    cycle_to_check = 20
     screen = ""
 
-    while (cycle := cycle + 1) < 1000 and ( signals or timer ):
-        pixel_position = (cycle-1)%40
-        sprite_min, sprite_max = x-1, x+1
-
-        if pixel_position == 0:
-            screen += "\n"
-
-        if sprite_min <= pixel_position <= sprite_max:
-            screen += "#"
-        else:
-            screen += " "
-
-        if cycle == cycle_to_check:
-            cycle_to_check += 40
-            signal_strengths += cycle * x
+    while (cycle := cycle + 1) < 1000 and (signals or timer):
+        screen += get_pixel(cycle, x)
+        signal_strength += 0 if ((cycle - 20) % 40) else cycle * x
 
         if not timer:
             signal, value = signals.popleft()
-            if signal == "noop":
-                signal = None
-                continue
-            if signal == "addx":
-                timer = 2
+            timer = cycles_to_complete[signal]
 
         if (timer := timer - 1) <= 0:
             if signal == "addx":
                 x += value
-            timer = 0
 
-    return signal_strengths, screen
+    return signal_strength, screen
 
 if __name__ == "__main__":
     puzzle_file = pathlib.Path(__file__).parent.joinpath("input.txt")
