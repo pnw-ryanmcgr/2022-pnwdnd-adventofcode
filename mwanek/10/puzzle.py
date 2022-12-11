@@ -24,24 +24,21 @@ def solve(puzzle_input: str):
     screen = ""
 
     while (cycle := cycle + 1) < 1000 and ( signals or timer ):
+        pixel_position = (cycle-1)%40
+        sprite_min, sprite_max = x-1, x+1
 
-        # part 2, draw at the beginning of a cycle:
-        sprite = range(x-1, x+2)
-        pixel = (cycle-1)%40    #pixel rotates between 0 and 39
-
-        if pixel == 0:
+        if pixel_position == 0:
             screen += "\n"
-        if pixel in sprite:
+
+        if sprite_min <= pixel_position <= sprite_max:
             screen += "#"
         else:
             screen += " "
 
-        # part 1, look at signal strengths at the beginning of a cycle:
         if cycle == cycle_to_check:
             cycle_to_check += 40
             signal_strengths += cycle * x
 
-        # reading an instruction:
         if not timer:
             signal, value = signals.popleft()
             if signal == "noop":
@@ -50,14 +47,10 @@ def solve(puzzle_input: str):
             if signal == "addx":
                 timer = 2
 
-        # decreasing the timer if one exists:
-        if timer:
-            timer -= 1
-
-        # doing the 'addx' signal at the end of a cycle:
-        if not timer:
+        if (timer := timer - 1) <= 0:
             if signal == "addx":
                 x += value
+            timer = 0
 
     return signal_strengths, screen
 
