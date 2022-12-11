@@ -1,4 +1,3 @@
-
 """
 Ryan McGregor, 08Dec2022
 AOC2022:Day07
