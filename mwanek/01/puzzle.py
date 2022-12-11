@@ -3,7 +3,6 @@
 import pathlib
 
 def parse(puzzle_input: str) -> list[int]:
-    """ Parse input """
     calories_carried_per_elf = []
     for single_elf_data in puzzle_input.split('\n\n'):
         meals = single_elf_data.split('\n')
@@ -12,15 +11,12 @@ def parse(puzzle_input: str) -> list[int]:
     return sorted(calories_carried_per_elf)
 
 def part1(sorted_calories_per_elf: list) -> int:
-    """ Solve part 1 """
     return sorted_calories_per_elf[-1]
 
 def part2(sorted_calories_per_elf: list) -> int:
-    """ Solve part 2 """
     return sum(sorted_calories_per_elf[-3:])
 
 def solve(puzzle_input: str) -> tuple:
-    """ Parse, solve, return solutions """
     data = parse(puzzle_input)
     solution1 = part1(data)
     solution2 = part2(data)

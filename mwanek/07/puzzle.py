@@ -1,17 +1,17 @@
 #!python
-""" AOC 2022: Day X """
+""" AOC 2022: Day 7 """
 import pathlib
 from typing import List, Optional
 class File():
-    def __init__(self, name, size = 0, parent = None):
-        self.name = name
+    def __init__(self, name, size = 0, parent = None) -> None:
+        self.name: str = name
         self.children: List[File] = []
         self.parent: Optional[File] = parent
         self.size: int = int(size)
         if self.parent and self.size:
             self.parent.update_size(self.size)
 
-    def update_size(self, size_to_add):
+    def update_size(self, size_to_add) -> None:
         self.size += size_to_add
         if self.parent:
             self.parent.update_size(size_to_add)
@@ -29,10 +29,10 @@ def parse(terminal_history: str) -> set[File]:
                 dirname = command[1]
                 if dirname == "/":
                     pwd = root
-                elif dirname =="..":
+                elif dirname == "..":
                     pwd = pwd.parent
                 else:
-                    pwd = next(dir for dir in pwd.children if dir.name == dirname)
+                    pwd = next(c for c in pwd.children if c.name == dirname)
         else:
             if line.startswith("dir"):
                 size = 0

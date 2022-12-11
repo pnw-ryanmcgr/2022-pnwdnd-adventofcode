@@ -5,7 +5,6 @@ from collections import deque
 from copy import deepcopy
 
 def parse(puzzle_input: str) -> tuple[list]:
-    """ Parse input """
     cargo_diagram, raw_procedures = [l.splitlines() for l in puzzle_input.split("\n\n")]
 
     cargo_diagram.reverse()
@@ -28,7 +27,6 @@ def parse(puzzle_input: str) -> tuple[list]:
     return parsed_crate_piles, parsed_procedures
 
 def part1(data: tuple[list]) -> str:
-    """ Solve part 1 """
     crate_piles, procedures = deepcopy(data)
 
     for amount, source, target in procedures:
@@ -41,7 +39,6 @@ def part1(data: tuple[list]) -> str:
     return ''.join(crates_on_top)
 
 def part2(data: tuple[list]) -> str:
-    """ Solve part 2 """
     crate_piles, procedures = deepcopy(data)
 
     for amount, source, target in procedures:
@@ -55,7 +52,6 @@ def part2(data: tuple[list]) -> str:
     return ''.join(crates_on_top)
 
 def solve(puzzle_input: str) -> tuple:
-    """ Parse, solve, return solutions """
     data = parse(puzzle_input)
     solution1 = part1(data)
     solution2 = part2(data)

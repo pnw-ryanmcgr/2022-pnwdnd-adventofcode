@@ -16,7 +16,6 @@ def part2(data):
     """ Solve part 2 """
 
 def solve(puzzle_input: str) -> tuple:
-    """ Parse, solve, return solutions """
     data = parse(puzzle_input)
     solution1 = part1(data)
     solution2 = part2(data)

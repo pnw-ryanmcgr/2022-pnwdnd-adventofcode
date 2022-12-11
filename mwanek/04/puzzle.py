@@ -3,7 +3,6 @@
 import pathlib
 
 def parse(puzzle_input: str) -> list[list[set]]:
-    """ Parse input """
     pairs_of_cleaning_ranges = []
     for pair_of_elves in puzzle_input.splitlines():
 
@@ -16,7 +15,6 @@ def parse(puzzle_input: str) -> list[list[set]]:
     return pairs_of_cleaning_ranges
 
 def part1(cleaning_ranges: list[list[set]]) -> int:
-    """ Solve part 1 """
     fully_contained_ranges = 0
     for range1, range2 in cleaning_ranges:
         if range1 <= range2 or range1 >= range2:
@@ -24,7 +22,6 @@ def part1(cleaning_ranges: list[list[set]]) -> int:
     return fully_contained_ranges
 
 def part2(cleaning_ranges: list[list[set]]) -> int:
-    """ Solve part 2 """
     overlapping_ranges = 0
     for range1, range2 in cleaning_ranges:
         if range1 & range2:
@@ -32,7 +29,6 @@ def part2(cleaning_ranges: list[list[set]]) -> int:
     return overlapping_ranges
 
 def solve(puzzle_input: str) -> tuple:
-    """ Parse, solve, return solutions """
     data = parse(puzzle_input)
     solution1 = part1(data)
     solution2 = part2(data)

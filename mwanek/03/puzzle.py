@@ -4,7 +4,6 @@ import pathlib
 import string
 
 def parse(puzzle_input: str) -> list[list[int]]:
-    """ Parse input """
     priority = lambda x: string.ascii_letters.index(x) + 1
     rucksacks = []
     for rucksack_inventory in puzzle_input.splitlines():
@@ -12,7 +11,6 @@ def parse(puzzle_input: str) -> list[list[int]]:
     return rucksacks
 
 def part1(rucksacks: list) -> int:
-    """ Solve part 1 """
     priorities = 0
     for sack in rucksacks:
         half = len(sack)//2
@@ -22,7 +20,6 @@ def part1(rucksacks: list) -> int:
     return priorities
 
 def part2(rucksacks: list) -> int:
-    """ Solve part 2 """
     priorities = 0
     next_sack = lambda: set(rucksacks.pop())
     while rucksacks:
@@ -32,7 +29,6 @@ def part2(rucksacks: list) -> int:
     return priorities
 
 def solve(puzzle_input: str) -> tuple:
-    """ Parse, solve, return solutions """
     data = parse(puzzle_input)
     solution1 = part1(data)
     solution2 = part2(data)
