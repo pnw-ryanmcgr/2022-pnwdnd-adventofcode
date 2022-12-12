@@ -6,9 +6,6 @@ import (
 	"strings"
 )
 
-//go:embed input
-var input string
-
 const max_size = 100000
 const fs_size = 70000000
 const space_needed = 30000000

@@ -1,4 +1,4 @@
-package day07
+package day01
 
 import (
 	_ "embed"
@@ -12,10 +12,10 @@ var test1 string
 //go:embed input
 var input string
 
-const T1P1_EXPECTED = 95437
-const T1P2_EXPECTED = 24933642
-const INPUT_P1_EXPECTED = 1581595
-const INPUT_P2_EXPECTED = 1544176
+const T1P1_EXPECTED = 24000
+const T1P2_EXPECTED = 45000
+const INPUT_P1_EXPECTED = 69693
+const INPUT_P2_EXPECTED = 200945
 
 func TestPart1(t *testing.T) {
 	t1p1 := RunPart1(test1)

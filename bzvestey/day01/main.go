@@ -1,26 +1,17 @@
-package main
+package day01
 
 import (
-	_ "embed"
-	"fmt"
 	"sort"
 	"strconv"
 	"strings"
 )
-
-//go:embed input
-var input string
-
-func main() {
-	runData(input)
-}
 
 type Elf struct {
 	Index    int
 	Calories int
 }
 
-func runData(data string) {
+func runData(data string) []Elf {
 	rows := strings.Split(string(data), "\n")
 	rows = rows[:len(rows)-1]
 
@@ -44,10 +35,21 @@ func runData(data string) {
 		}
 	}
 
+	elves = append(elves, Elf{Index: currentElf, Calories: currentCount})
+
 	sort.Slice(elves, func(left, right int) bool {
 		return elves[left].Calories > elves[right].Calories
 	})
 
-	fmt.Println("Top Elf:", elves[0].Index, " | Calories", elves[0].Calories)
-	fmt.Println("Top 3 elves calories:", elves[0].Calories+elves[1].Calories+elves[2].Calories)
+	return elves
+}
+
+func RunPart1(data string) int {
+	elves := runData(data)
+	return elves[0].Calories
+}
+
+func RunPart2(data string) int {
+	elves := runData(data)
+	return elves[0].Calories + elves[1].Calories + elves[2].Calories
 }
