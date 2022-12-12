@@ -1,20 +1,12 @@
-package main
+package day02
 
 import (
 	_ "embed"
-	"fmt"
 	"strings"
 )
 
-//go:embed input
-var input string
-
-func main() {
-	runData(input)
-}
-
 const (
-	ROCK int64 = iota + 1
+	ROCK int = iota + 1
 	PAPER
 	SCISSORS
 	LOSE
@@ -23,12 +15,12 @@ const (
 )
 
 type Play struct {
-	Opponent int64
-	Player   int64
-	Strategy int64
+	Opponent int
+	Player   int
+	Strategy int
 }
 
-func opponentDecode(play string) int64 {
+func opponentDecode(play string) int {
 	switch play {
 	case "A":
 		return ROCK
@@ -40,7 +32,7 @@ func opponentDecode(play string) int64 {
 	return 0
 }
 
-func playerDecode(play string) int64 {
+func playerDecode(play string) int {
 	switch play {
 	case "X":
 		return ROCK
@@ -51,7 +43,7 @@ func playerDecode(play string) int64 {
 	}
 	return 0
 }
-func strategyDecode(play string) int64 {
+func strategyDecode(play string) int {
 	switch play {
 	case "X":
 		return LOSE
@@ -63,8 +55,8 @@ func strategyDecode(play string) int64 {
 	return 0
 }
 
-func calcScore1Play(player, opponent int64) int64 {
-	var score int64 = 0
+func calcScore1Play(player, opponent int) int {
+	var score int = 0
 
 	switch player {
 	case ROCK:
@@ -111,8 +103,8 @@ func calcScore1Play(player, opponent int64) int64 {
 	return score
 }
 
-func calcScore2Play(strategy, opponent int64) int64 {
-	var score int64 = 0
+func calcScore2Play(strategy, opponent int) int {
+	var score int = 0
 	switch strategy {
 	case LOSE:
 		switch opponent {
@@ -158,7 +150,7 @@ func calcScore2Play(strategy, opponent int64) int64 {
 	return score
 }
 
-func runData(data string) {
+func runData(data string) []Play {
 	rows := strings.Split(string(data), "\n")
 	rows = rows[:len(rows)-1]
 
@@ -172,14 +164,34 @@ func runData(data string) {
 		})
 	}
 
-	var score1 int64 = 0
-	var score2 int64 = 0
+	return plays
 
+	// var score1 int64 = 0
+	// var score2 int64 = 0
+
+	// for _, play := range plays {
+	// 	score1 += calcScore1Play(play.Player, play.Opponent)
+	// 	score2 += calcScore2Play(play.Strategy, play.Opponent)
+	// }
+
+	// fmt.Println("Part 1:", score1)
+	// fmt.Println("Part 2:", score2)
+}
+
+func RunPart1(data string) int {
+	plays := runData(data)
+	var score int = 0
 	for _, play := range plays {
-		score1 += calcScore1Play(play.Player, play.Opponent)
-		score2 += calcScore2Play(play.Strategy, play.Opponent)
+		score += calcScore1Play(play.Player, play.Opponent)
 	}
+	return score
+}
 
-	fmt.Println("Part 1:", score1)
-	fmt.Println("Part 2:", score2)
+func RunPart2(data string) int {
+	plays := runData(data)
+	var score int = 0
+	for _, play := range plays {
+		score += calcScore2Play(play.Strategy, play.Opponent)
+	}
+	return score
 }
