@@ -64,40 +64,25 @@ func calcScore1Play(player, opponent int) int {
 		switch opponent {
 		case ROCK:
 			score += 3
-			break
-		case PAPER:
-			break
 		case SCISSORS:
 			score += 6
-			break
 		}
-		break
 	case PAPER:
 		score += 2
 		switch opponent {
 		case ROCK:
 			score += 6
-			break
 		case PAPER:
 			score += 3
-			break
-		case SCISSORS:
-			break
 		}
-		break
 	case SCISSORS:
 		score += 3
 		switch opponent {
-		case ROCK:
-			break
 		case PAPER:
 			score += 6
-			break
 		case SCISSORS:
 			score += 3
-			break
 		}
-		break
 	}
 
 	return score
@@ -110,41 +95,30 @@ func calcScore2Play(strategy, opponent int) int {
 		switch opponent {
 		case ROCK:
 			score += 3
-			break
 		case PAPER:
 			score += 1
-			break
 		case SCISSORS:
 			score += 2
-			break
 		}
-		break
 	case DRAW:
 		score += 3
 		switch opponent {
 		case ROCK:
 			score += 1
-			break
 		case PAPER:
 			score += 2
-			break
 		case SCISSORS:
 			score += 3
-			break
 		}
-		break
 	case WIN:
 		score += 6
 		switch opponent {
 		case ROCK:
 			score += 2
-			break
 		case PAPER:
 			score += 3
-			break
 		case SCISSORS:
 			score += 1
-			break
 		}
 	}
 	return score
@@ -165,17 +139,6 @@ func runData(data string) []Play {
 	}
 
 	return plays
-
-	// var score1 int64 = 0
-	// var score2 int64 = 0
-
-	// for _, play := range plays {
-	// 	score1 += calcScore1Play(play.Player, play.Opponent)
-	// 	score2 += calcScore2Play(play.Strategy, play.Opponent)
-	// }
-
-	// fmt.Println("Part 1:", score1)
-	// fmt.Println("Part 2:", score2)
 }
 
 func RunPart1(data string) int {

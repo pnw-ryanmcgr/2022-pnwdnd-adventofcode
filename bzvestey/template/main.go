@@ -1,20 +1,12 @@
-package main
+package day10
 
 import (
-	_ "embed"
 	"fmt"
 	"strconv"
 	"strings"
 )
 
-//go:embed input
-var input string
-
-func main() {
-	runData(input)
-}
-
-func runData(data string) {
+func runData(data string) int {
 	rows := strings.Split(string(data), "\n")
 	rows = rows[:len(rows)-1]
 
@@ -34,4 +26,12 @@ func runData(data string) {
 	}
 
 	fmt.Println("Last:", last)
+}
+
+func RunPart1(data string) int {
+	return runData(data)
+}
+
+func RunPart2(data string) int {
+	return runData(data)
 }
