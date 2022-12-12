@@ -1,18 +1,13 @@
-package main
+package day07
 
 import (
 	_ "embed"
-	"fmt"
 	"strconv"
 	"strings"
 )
 
 //go:embed input
 var input string
-
-func main() {
-	runData(input)
-}
 
 const max_size = 100000
 const fs_size = 70000000
@@ -25,13 +20,19 @@ type File struct {
 	Children []*File
 }
 
-func runData(data string) {
+func calcDirSizeAndGetParent(dir *File) *File {
+	for _, c := range dir.Children {
+		dir.Size += c.Size
+	}
+	return dir.Parent
+}
+
+func createDirectoryStructure(data string) *File {
 	rows := strings.Split(string(data), "\n")
 	rows = rows[:len(rows)-1]
 
 	root := File{}
 	var currentDir *File
-	allSizeUnderMaxSize := 0
 
 	for _, v := range rows {
 		parts := strings.Split(v, " ")
@@ -43,13 +44,7 @@ func runData(data string) {
 				case "/":
 					currentDir = &root
 				case "..":
-					for _, c := range currentDir.Children {
-						currentDir.Size += c.Size
-					}
-					if currentDir.Size <= max_size {
-						allSizeUnderMaxSize += currentDir.Size
-					}
-					currentDir = currentDir.Parent
+					currentDir = calcDirSizeAndGetParent(currentDir)
 				default:
 					for _, c := range currentDir.Children {
 						if c.Name == parts[2] {
@@ -78,19 +73,25 @@ func runData(data string) {
 	}
 
 	for currentDir != nil {
-		for _, c := range currentDir.Children {
-			currentDir.Size += c.Size
-		}
-		if currentDir.Size <= max_size {
-			allSizeUnderMaxSize += currentDir.Size
-		}
-		currentDir = currentDir.Parent
+		currentDir = calcDirSizeAndGetParent(currentDir)
 	}
 
-	sizeOfDirToDelete := space_needed - (fs_size - root.Size)
+	return &root
+}
 
-	fmt.Println("Part 1 All Size Under Max Size:", allSizeUnderMaxSize)
-	fmt.Println("Part 2 Amount To Delete:", findDirToDelete(&root, sizeOfDirToDelete))
+func calcAllUnderMaxSize(dir *File, maxSize int) int {
+	total := 0
+	if dir.Size <= maxSize {
+		total += dir.Size
+	}
+
+	for _, c := range dir.Children {
+		if len(c.Children) > 0 {
+			total += calcAllUnderMaxSize(c, maxSize)
+		}
+	}
+
+	return total
 }
 
 func findDirToDelete(dir *File, spaceNeeded int) int {
@@ -108,4 +109,15 @@ func findDirToDelete(dir *File, spaceNeeded int) int {
 	}
 
 	return amountToDelete
+}
+
+func RunPart1(data string) int {
+	root := createDirectoryStructure(data)
+	return calcAllUnderMaxSize(root, max_size)
+}
+
+func RunPart2(data string) int {
+	root := createDirectoryStructure(data)
+	sizeOfDirToDelete := space_needed - (fs_size - root.Size)
+	return findDirToDelete(root, sizeOfDirToDelete)
 }
