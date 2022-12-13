@@ -1,7 +1,6 @@
 package day10
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -25,7 +24,7 @@ func runData(data string) int {
 		last = cur
 	}
 
-	fmt.Println("Last:", last)
+	return last
 }
 
 func RunPart1(data string) int {
